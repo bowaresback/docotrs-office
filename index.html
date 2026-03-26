@@ -1,348 +1,271 @@
-// ========== PARTICLES BACKGROUND ==========
-function createParticles() {
-    const container = document.getElementById('particles');
-    if (!container) return;
-
-    for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.style.cssText = `
-            position: absolute;
-            width: ${Math.random() * 6 + 2}px;
-            height: ${Math.random() * 6 + 2}px;
-            background: rgba(255, 255, 255, ${Math.random() * 0.15 + 0.05});
-            border-radius: 50%;
-            left: ${Math.random() * 100}%;
-            top: ${Math.random() * 100}%;
-            animation: floatParticle ${Math.random() * 10 + 8}s ease-in-out infinite;
-            animation-delay: ${Math.random() * 5}s;
-        `;
-        container.appendChild(particle);
-    }
-}
-
-// Add particle CSS
-const particleStyle = document.createElement('style');
-particleStyle.textContent = `
-    @keyframes floatParticle {
-        0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.5; }
-        25% { transform: translate(30px, -30px) rotate(90deg); opacity: 1; }
-        50% { transform: translate(-20px, -60px) rotate(180deg); opacity: 0.5; }
-        75% { transform: translate(20px, -30px) rotate(270deg); opacity: 1; }
-    }
-    #particles {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-        pointer-events: none;
-        z-index: 1;
-    }
-`;
-document.head.appendChild(particleStyle);
-
-createParticles();
-
-// ========== INIT ON LOAD ==========
-document.addEventListener('DOMContentLoaded', () => {
-    // Set initial active nav
-    updateActiveNav();
-
-    // Initialize slider position
-    goToSlide(0);
-
-    console.log('%c HealthFirst Medical Center ', 
-        'background: #0ea5e9; color: white; padding: 8px 16px; border-radius: 4px; font-size: 14px; font-weight: bold;'
-    );
-    console.log('%c Website loaded successfully! 🏥', 
-        'color: #10b981; font-size: 12px;'
-    );
-});
-
-// Handle window resize for slider
-window.addEventListener('resize', () => {
-    goToSlide(0);
-    currentSlide = 0;
-});
-:root{
-  --bg: #f7f9fb;
-  --text: #1f2a37;
-  --muted: #5b6b86;
-  --primary: #2a7ae2;
-  --secondary: #4cc9f0;
-  --card: #fff;
-  --radius: 12px;
-}
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; font-family: Inter, system-ui, -apple-system, Arial; color: var(--text); background: var(--bg); }
-.container { width: 90%; max-width: 1100px; margin: 0 auto; }
-
-.site-header { background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 20; }
-.site-header .container { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
-.logo { font-weight: 700; font-size: 1.1rem; color: #333; text-decoration: none; }
-.nav ul { list-style: none; display: flex; gap: 16px; padding: 0; margin: 0; }
-.nav a { text-decoration: none; color: #333; font-weight: 500; }
-.hero { padding: 72px 0; background: linear-gradient(135deg, #eaf4ff 0%, #fff 60%); }
-.hero h1 { font-size: 2.25rem; margin: 0 0 12px; }
-.hero .lead { color: var(--muted); font-size: 1.05rem; margin-bottom: 20px; }
-.btn { display: inline-block; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-secondary { background: #fff; color: var(--primary); border: 2px solid var(--primary); }
-.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 40px 0; }
-.feature-card { background: #fff; padding: 20px; border-radius: var(--radius); box-shadow: 0 2px 6px rgba(0,0,0,.05); }
-.testimonials { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 30px 0 60px; }
-blockquote { background: #fff; padding: 16px 20px; border-left: 4px solid var(--primary); border-radius: 6px; }
-.site-footer { background: #111; color: #bbb; padding: 20px 0; text-align: center; }
-@media (max-width: 900px) {
-  .features { grid-template-columns: 1fr 1fr; }
-  .hero { padding: 40px 0; }
-  .testimonials { grid-template-columns: 1fr; }
-}
-@media (max-width: 600px) {
-  .nav { display: none; } /* simplify for demo; in real site add a hamburger menu */
-  .features { grid-template-columns: 1fr; }
-  .hero h1 { font-size: 1.8rem; }
-}
-// Simple smooth-scroll (optional for internal anchors)
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
-});
-
-// Basic form validation example (to be wired to backend later)
-document.querySelectorAll('form').forEach(form => {
-  form.addEventListener('submit', e => {
-    const name = form.querySelector('[name="name"]');
-    const email = form.querySelector('[name="email"]');
-    if (name && name.value.trim() === '') {
-      alert('Please enter your name.');
-      e.preventDefault();
-      return;
-    }
-    if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
-      alert('Please enter a valid email.');
-      e.preventDefault();
-      return;
-    }
-  });
-});
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About - Dr. Smith Family Medicine</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <title>LuminaCare - Sophisticated Doctors Office</title>
+  <meta name="description" content="LuminaCare: modern, patient-centered medical practice with seamless online booking." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%234F46E5'/%3E%3Cstop offset='1' stop-color='%237C3AED'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' fill='url(%23g)'/%3E%3Ccircle cx='16' cy='12' r='6' fill='white'/%3E%3Ccircle cx='16' cy='22' r='4' fill='white'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900;i" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet" />
 </head>
 <body>
   <header class="site-header">
-    <div class="container">
-      <a href="index.html" class="logo">Dr. Smith Family Medicine</a>
-      <nav class="nav" aria-label="Main navigation">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="staff.html">Staff</a></li>
-          <li><a href="appointments.html">Appointments</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
+    <div class="container nav-wrap">
+      <a href="#" class="logo" aria-label="LuminaCare Home">
+        <svg width="34" height="34" viewBox="0 0 100 100" fill="none" role="img" aria-label="LuminaCare">
+          <defs>
+            <linearGradient id="grad" x1="0" x2="1" y1="0" y2="1">
+              <stop stop-color="#4F46E5"/>
+              <stop offset="1" stop-color="#06B6D4"/>
+            </linearGradient>
+          </defs>
+          <circle cx="50" cy="50" r="40" fill="url(#grad)" />
+          <path d="M35 55h30v10H35z" fill="white" opacity="0.95"/>
+          <circle cx="50" cy="50" r="8" fill="#4F46E5"/>
+        </svg>
+        <span class="brand-name">LuminaCare</span>
+      </a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#doctors">Our Doctors</a>
+        <a href="#booking" class="cta-link">Book Appointment</a>
+        <button id="themeToggle" aria-label="Toggle theme" class="icon-btn" title="Toggle theme">
+          <span class="sun" aria-hidden="true">☀️</span>
+          <span class="moon" aria-hidden="true" style="display:none">🌙</span>
+        </button>
       </nav>
     </div>
   </header>
 
-  <main class="container" aria-label="About the clinic" style="padding:40px 0;">
-    <h1>About Us</h1>
-    <p>Our clinic focuses on compassionate, comprehensive primary care for patients of all ages. Led by Dr. Smith and a dedicated team, we emphasize preventive medicine, patient education, and accessible care.</p>
-    <!-- Add more sections as needed -->
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2026 Dr. Smith Family Medicine. All rights reserved.</p>
-    </div>
-  </footer>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Staff - Dr. Smith Family Medicine</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
-</head>
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a href="index.html" class="logo">Dr. Smith Family Medicine</a>
-      <nav class="nav" aria-label="Main navigation">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="staff.html">Staff</a></li>
-          <li><a href="appointments.html">Appointments</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container" style="padding:40px 0;">
-    <h1>Our Team</h1>
-    <div class="staff-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
-      <div class="staff-card" style="background:#fff; padding:16px; border-radius:8px;">
-        <img src="assets/images/doctor1.jpg" alt="Dr. Jane Doe" style="width:100%; height:auto; border-radius:6px;">
-        <h3>Dr. Jane Doe</h3>
-        <p>Family Medicine</p>
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home" aria-label="Hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>Modern care, compassionate hands.</h1>
+          <p>LuminaCare delivers patient-centered medical services with a seamless digital experience—from online booking to secure records. Experience elevated care in a serene, professional setting.</p>
+          <div class="hero-cta">
+            <a href="#booking" class="btn btn-primary">Book Now</a>
+            <a href="#about" class="btn btn-secondary">Learn More</a>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Abstract medical illustration">
+          <svg width="100%" height="100%" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Medical illustration">
+            <defs>
+              <linearGradient id="grad2" x1="0" x2="1" y1="0" y2="1">
+                <stop stop-color="#4F46E5"/>
+                <stop offset="1" stop-color="#22C1C3"/>
+              </linearGradient>
+            </defs>
+            <rect width="600" height="420" fill="#0b1020"/>
+            <circle cx="480" cy="110" r="60" fill="url(#grad2)" opacity="0.8"/>
+            <rect x="60" y="260" width="420" height="120" rx="18" fill="white" opacity="0.15"/>
+            <path d="M100 320 C180 260, 420 260, 500 320" stroke="white" stroke-width="6" fill="none" opacity="0.6"/>
+            <circle cx="120" cy="120" r="14" fill="white"/>
+          </svg>
+        </div>
       </div>
-      <div class="staff-card" style="background:#fff; padding:16px; border-radius:8px;">
-        <img src="assets/images/doctor2.jpg" alt="Dr. John Smith" style="width:100%; height:auto; border-radius:6px;">
-        <h3>Dr. John Smith</h3>
-        <p>Family Medicine</p>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section about" aria-label="About LuminaCare">
+      <div class="container">
+        <h2>About LuminaCare</h2>
+        <p class="lead">We blend medical excellence with a refined patient experience. Our team prioritizes clarity, respect, and evidence-based care, backed by modern technology designed for your wellbeing.</p>
+        <div class="grid two">
+          <div class="card">
+            <h3>Patient-Centered</h3>
+            <p>Your needs drive our decisions. From pre-visit forms to post-visit follow-ups, we keep you informed and at ease.</p>
+          </div>
+          <div class="card">
+            <h3>Expert Team</h3>
+            <p>Board-certified physicians, nurse practitioners, and allied health staff collaborate to deliver comprehensive care.</p>
+          </div>
+        </div>
       </div>
-      <div class="staff-card" style="background:#fff; padding:16px; border-radius:8px;">
-        <img src="assets/images/nurse.jpg" alt="Nurse Emily" style="width:100%; height:auto; border-radius:6px;">
-        <h3>Nurse Emily Carter</h3>
-        <p>Registered Nurse</p>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="section services" aria-label="Services">
+      <div class="container">
+        <h2>Services</h2>
+        <p class="lead">Primary care, preventive care, and wellness programs—all delivered with precision and empathy.</p>
+        <div class="grid three service-grid">
+          <div class="service-card card">
+            <div class="icon" aria-hidden="true">🩺</div>
+            <h3>Primary Care</h3>
+            <p>Annual check-ups, chronic disease management, vaccination planning, and health screenings.</p>
+          </div>
+          <div class="service-card card">
+            <div class="icon" aria-hidden="true">🧬</div>
+            <h3>Preventive Care</h3>
+            <p>Personalized screening schedules and evidence-based prevention plans.</p>
+          </div>
+          <div class="service-card card">
+            <div class="icon" aria-hidden="true">🫀</div>
+            <h3>Wellness & Counseling</h3>
+            <p>Nutrition, stress management, sleep optimization, and behavioral health support.</p>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- DOCTORS -->
+    <section id="doctors" class="section doctors" aria-label="Our Doctors">
+      <div class="container">
+        <h2>Meet Our Doctors</h2>
+        <p class="lead">A collaborative team dedicated to your health with a modern, welcoming approach.</p>
+        <div class="grid three doctor-grid">
+          <div class="doctor-card card">
+            <div class="avatar" aria-label="Dr. Ava Patel">AP</div>
+            <h3>Dr. Ava Patel</h3>
+            <p>MD, Family Medicine — 12 years of experience in preventive care and patient education.</p>
+          </div>
+          <div class="doctor-card card">
+            <div class="avatar" aria-label="Dr. Liam Chen">LC</div>
+            <h3>Dr. Liam Chen</h3>
+            <p>MD, Internal Medicine — focus on chronic disease management and evidence-based practices.</p>
+          </div>
+          <div class="doctor-card card">
+            <div class="avatar" aria-label="Nurse Practitioner Mia Rivera">MR</div>
+            <h3>Nurse Practitioner Mia Rivera</h3>
+            <p>MSN, FNP-BC — specializes in wellness coaching and patient-centered care plans.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOOKING -->
+    <section id="booking" class="section booking" aria-label="Booking">
+      <div class="container">
+        <h2>Book an Appointment</h2>
+        <p class="lead">Choose a provider, date, and time. Simple, secure, and fast.</p>
+
+        <div class="booking-grid">
+          <div class="booking-card card">
+            <form id="bookingForm" novalidate>
+              <div class="field">
+                <label for="patientName">Patient Name</label>
+                <input id="patientName" name="patientName" type="text" placeholder="Full name" required />
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="phone">Phone</label>
+                  <input id="phone" name="phone" type="tel" placeholder="(555) 123-4567" required />
+                </div>
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="you@example.com" required />
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="doctor">Doctor</label>
+                  <select id="doctor" name="doctor" required>
+                    <option value="" disabled selected>Select a doctor</option>
+                    <option>Ava Patel, MD</option>
+                    <option>Liam Chen, MD</option>
+                    <option>Mia Rivera, NP</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="specialty">Specialty</label>
+                  <select id="specialty" name="specialty" required>
+                    <option value="" disabled selected>Select specialty</option>
+                    <option>Family Medicine</option>
+                    <option>Internal Medicine</option>
+                    <option>Wellness & Counseling</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="date">Date</label>
+                  <input id="date" name="date" type="date" required />
+                </div>
+                <div class="field">
+                  <label for="time">Time</label>
+                  <select id="time" name="time" required>
+                    <option value="" disabled selected>Select a time</option>
+                    <!-- times populated by JS -->
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="notes">Notes & Reason for Visit</label>
+                <textarea id="notes" name="notes" rows="3" placeholder="Optional details to help us prepare"></textarea>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Submit Booking</button>
+              </div>
+              <p id="formMsg" class="form-msg" aria-live="polite"></p>
+            </form>
+          </div>
+          <div class="booking-visual card" aria-label="Booking summary">
+            <h3>Your Appointment Preview</h3>
+            <p class="muted">Selected doctor, date, and time will appear here after you fill the form.</p>
+            <ul id="previewList" class="preview-list">
+              <li><strong>Patient:</strong> <span id="pvName">—</span></li>
+              <li><strong>Doctor:</strong> <span id="pvDoctor">—</span></li>
+              <li><strong>Date:</strong> <span id="pvDate">—</span></li>
+              <li><strong>Time:</strong> <span id="pvTime">—</span></li>
+              <li><strong>Notes:</strong> <span id="pvNotes">—</span></li>
+            </ul>
+            <div class="visual-steps" aria-label="Process steps">
+              <div class="step"><span>1</span> Fill form</div>
+              <div class="step"><span>2</span> Confirm</div>
+              <div class="step"><span>3</span> Receive confirmation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT / FOOTER -->
+    <section id="contact" class="section contact" aria-label="Contact">
+      <div class="container">
+        <h2>Contact Us</h2>
+        <p class="lead">Phone: (555) 000-1234 • Email: hello@lumincare.example</p>
+        <div class="contact-grid">
+          <form id="contactForm" class="card" novalidate>
+            <div class="field">
+              <label for="cname">Your Name</label>
+              <input id="cname" name="cname" type="text" required />
+            </div>
+            <div class="field">
+              <label for="cemail">Email</label>
+              <input id="cemail" name="cemail" type="email" required />
+            </div>
+            <div class="field">
+              <label for="cmessage">Message</label>
+              <textarea id="cmessage" name="cmessage" rows="4" required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-secondary">Send Message</button>
+            </div>
+          </form>
+          <div class="card" aria-label="Office details">
+            <h3>Clinic Details</h3>
+            <p>123 Lumina Ave, Suite 200<br/>City, State, ZIP</p>
+            <p>Mon-Fri: 8:00am – 6:00pm</p>
+            <p>Weekend by appointment only</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>&copy; 2026 Dr. Smith Family Medicine. All rights reserved.</p>
+      <p>&copy; 2026 LuminaCare. All rights reserved.</p>
     </div>
   </footer>
+
+  <script src="scripts.js"></script>
+  <script src="api.js"></script>
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Appointments - Dr. Smith Family Medicine</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
-</head>
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a href="index.html" class="logo">Dr. Smith Family Medicine</a>
-      <nav class="nav" aria-label="Main navigation">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="staff.html">Staff</a></li>
-          <li><a href="appointments.html">Appointments</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container" style="padding:40px 0;">
-    <h1>Request an Appointment</h1>
-    <form action="#" method="post" style="max-width:600px;">
-      <label>Name</label><br/>
-      <input type="text" name="name" required style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"><br/><br/>
-      <label>Email</label><br/>
-      <input type="email" name="email" required style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"><br/><br/>
-      <label>Phone</label><br/>
-      <input type="tel" name="phone" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"><br/><br/>
-      <label>Preferred Date</label><br/>
-      <input type="date" name="date" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"><br/><br/>
-      <label>Reason for Visit</label><br/>
-      <textarea name="notes" rows="4" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"></textarea><br/><br/>
-      <button type="submit" class="btn btn-primary">Submit Request</button>
-    </form>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2026 Dr. Smith Family Medicine. All rights reserved.</p>
-    </div>
-  </footer>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact - Dr. Smith Family Medicine</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
-</head>
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a href="index.html" class="logo">Dr. Smith Family Medicine</a>
-      <nav class="nav" aria-label="Main navigation">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="staff.html">Staff</a></li>
-          <li><a href="appointments.html">Appointments</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container" style="padding:40px 0;">
-    <h1>Contact Us</h1>
-    <p>Phone: (555) 123-4567</p>
-    <p>Email: info@exampleclinic.com</p>
-    <p>Address: 123 Health Ave, City, State</p>
-
-    <div style="height:200px; width:100%; background:#e9eef7; border-radius:8px; display:flex; align-items:center; justify-content:center;">
-      <span>Map placeholder</span>
-    </div>
-
-    <h2 style="margin-top:24px;">Send us a message</h2>
-    <form action="#" method="post" style="max-width:600px;">
-      <label>Name</label><br/>
-      <input type="text" name="name" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"><br/><br/>
-      <label>Email</label><br/>
-      <input type="email" name="email" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"><br/><br/>
-      <label>Message</label><br/>
-      <textarea name="message" rows="4" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"></textarea><br/><br/>
-      <button type="submit" class="btn btn-secondary">Send Message</button>
-    </form>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2026 Dr. Smith Family Medicine. All rights reserved.</p>
-    </div>
-  </footer>
-</body>
-</html>
-# Dr. Smith Family Medicine - Portfolio Mock Site
-
-This is a static front-end mockup of a doctor’s office website to showcase design and front-end skills. It’s not a WordPress theme yet, but it’s structured to be easily extended into a WordPress-based site.
-
-What you’ll see
-- Responsive layout with a clean, patient-friendly design
-- Home, About, Services, Staff, Appointments (front-end), and Contact pages
-- Basic navigation, hero section, service cards, staff grid, and appointment form
-
-How to use
-1. Create a Git repository and push these files.
-2. Open index.html in a browser to view the homepage.
-3. Expand with WordPress templates if you want to convert to a WP site:
-   - Create a WP theme with header.php and footer.php
-   - Use page templates for About, Services, Staff, Appointments, and Contact
-   - Connect the appointment form to a backend or a plugin (e.g., WPForms)
-4. Replace placeholder images with real assets.
-
-Notes
-- Accessibility: semantic HTML, proper heading order, ARIA where appropriate.
-- This is a front-end prototype. For production, you’ll want to add form handling, validation, SEO optimization, performance optimizations, and security checks.
-
-If you’d like, I can tailor this into a minimal WordPress theme structure (PHP templates, functions.php, stylesheet enqueue, etc.) or provide a GitHub Actions workflow for deployment to your site. Also, tell me your preferred styling framework (Bootstrap, Tailwind) or any branding colors, and I’ll adjust the design accordingly.
